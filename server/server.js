@@ -11,7 +11,7 @@ import cors from "cors";
 
 
 //db connection
-dbConnect();
+await dbConnect();
 
 const app = express();
 

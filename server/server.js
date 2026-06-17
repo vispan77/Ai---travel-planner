@@ -11,10 +11,11 @@ import cors from "cors";
 
 
 //db connection
-await dbConnect();
+dbConnect();
 
 const app = express();
 
+console.log(process.env.FRONTEND_URL)
 
 //middleware
 app.use(express.json())

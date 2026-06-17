@@ -77,7 +77,7 @@ function Home() {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/about')}
+                            onClick={() => navigate('/dashboard')}
                             className="px-8 py-4 bg-white text-slate-700 border border-slate-200 
                             text-lg 
                             font-bold rounded-full shadow-sm hover:shadow-md hover:border-slate-300

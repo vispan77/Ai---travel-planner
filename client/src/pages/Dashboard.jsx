@@ -17,8 +17,9 @@ function Dashboard() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const sidebarItems = [
-        { name: "Home", path: "/dashboard" }, 
-        { name: "Upload", path: "/dashboard/upload" },   
+        { name: "Home", path: "/dashboard" },
+        { name: "Upload", path: "/dashboard/upload" },
+        { name: "History", path: "/dashboard/history" }
     ];
 
     const handleLogout = async () => {
@@ -35,9 +36,11 @@ function Dashboard() {
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans relative">
-            
+
             <div className="md:hidden flex items-center justify-between bg-white/80 backdrop-blur-xl p-4 border-b border-gray-200 sticky top-0 z-50">
-                <div className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 tracking-wide">
+                <div
+                    className="text-xl font-extrabold text-transparent bg-clip-text 
+                    bg-gradient-to-r from-indigo-600 to-violet-600 tracking-wide cursor-pointer">
                     AI Travel
                 </div>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-600 focus:outline-none">
@@ -49,7 +52,7 @@ function Dashboard() {
                 </button>
             </div>
 
-            
+
             <motion.div
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -58,15 +61,15 @@ function Dashboard() {
                 p-6 flex flex-col justify-start items-center fixed md:sticky top-0 h-screen z-40 transition-transform duration-300 ease-in-out
                 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
             >
-                
-                <div
+
+                <div  onClick={() => navigate('/')}
                     className="hidden md:block text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r
-                    from-indigo-600 to-violet-600 tracking-wide mb-8"
+                    from-indigo-600 to-violet-600 tracking-wide mb-8 cursor-pointer"
                 >
                     AI Travel
                 </div>
 
-                
+
                 <nav className="flex flex-col w-full space-y-4 flex-grow mt-8 md:mt-0">
                     {sidebarItems.map((item, index) => (
                         <motion.button
@@ -92,7 +95,7 @@ function Dashboard() {
                     ))}
                 </nav>
 
-                
+
                 <div className="w-full mt-auto pt-8 border-t border-slate-200">
                     <motion.button
                         whileHover={{ scale: 1.02 }}
@@ -108,7 +111,7 @@ function Dashboard() {
                 </div>
             </motion.div>
 
-           
+
             {isMobileMenuOpen && (
                 <div
                     className="fixed inset-0 bg-slate-900/50 z-30 md:hidden backdrop-blur-sm"

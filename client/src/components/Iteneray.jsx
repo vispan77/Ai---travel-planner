@@ -24,20 +24,6 @@ export default function Itinerary() {
         handleGetItineraryById();
     }, [id]);
 
-    const handleShare = async () => {
-        const shareData = {
-            title: `My Trip to ${destination}`,
-            text: `Check out my travel itinerary for ${destination}!`,
-            url: window.location.href,
-        };
-        try {
-            await navigator.share(shareData);
-        } catch (err) {
-            navigator.clipboard.writeText(window.location.href);
-            toast.success("Link copied to clipboard!");
-        }
-    };
-
     if (!itineraryData) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
@@ -97,15 +83,6 @@ export default function Itinerary() {
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button
-                        onClick={handleShare}
-                        className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-full shadow-sm hover:bg-slate-50 transition-all"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-                        </svg>
-                        Share
-                    </button>
                     <span className="px-4 py-2 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full shadow-sm">
                         {itinerary.tripSummary?.status || "Ready"}
                     </span>

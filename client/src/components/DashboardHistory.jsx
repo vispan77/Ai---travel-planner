@@ -89,6 +89,12 @@ function DashboardHistory() {
                                 const hasTrain = trip.trains?.length > 0;
                                 const hasHotel = trip.hotels?.length > 0;
 
+                                const isCompleted = endDate ? new Date(endDate) < new Date() : false;
+                                const statusLabel = isCompleted ? 'Completed' : 'Upcoming';
+                                const statusColor = isCompleted 
+                                    ? 'bg-slate-100 text-slate-600' 
+                                    : 'bg-emerald-100 text-emerald-700';
+
                                 return (
                                     <>
                                         <div>
@@ -96,8 +102,8 @@ function DashboardHistory() {
                                                 <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
                                                     {hasFlight ? '✈️' : hasTrain ? '🚆' : hasHotel ? '🏨' : '🌍'}
                                                 </div>
-                                                <span className={`px-3 py-1 text-xs font-bold rounded-full ${trip.tripSummary?.status === 'Ready' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
-                                                    {trip.tripSummary?.status || 'Generated'}
+                                                <span className={`px-3 py-1 text-xs font-bold rounded-full ${statusColor}`}>
+                                                    {statusLabel}
                                                 </span>
                                             </div>
                                             <h3 className="text-xl font-bold text-slate-900 mb-1">{destination}</h3>

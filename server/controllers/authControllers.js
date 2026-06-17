@@ -2,6 +2,56 @@ import User from "../model/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+const googleAuth = async (req, res) => {
+    try {
+        const { name, email } = req.body;
+        if (!name || !email) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            })
+        }
+
+        let user = await User.findOne({ email });
+        if (!user) {
+            user = await User.create({
+                name,
+                email
+            })
+        }
+
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        )
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        return res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while google auth"
+        })
+    }
+}
+
 
 const register = async (req, res) => {
     try {
@@ -152,7 +202,6 @@ const getMe = async (req, res) => {
         })
     }
 }
-
 const logout = async (req, res) => {
     try {
         res.clearCookie("token").status(200).json({
@@ -169,6 +218,7 @@ const logout = async (req, res) => {
 }
 
 export {
+    googleAuth,
     register,
     login,
     logout,

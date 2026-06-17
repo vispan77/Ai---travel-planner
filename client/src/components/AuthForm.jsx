@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/Slice/userSlice';
 import toast from 'react-hot-toast';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../services/firebase';
 
 
 function AuthForm() {
@@ -47,6 +49,22 @@ function AuthForm() {
         }
     }
 
+    const handleGoogleAuth = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            console.log(result);
+            const response = await api.post("/auth/google-auth", {
+                name: result.user.displayName,
+                email: result.user.email
+            })
+            dispatch(setUserData(response.data.user));
+            navigate("/")
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message)
+        }
+    }
+
     return (
         <motion.div
             className="w-full max-w-md p-8 space-y-6 bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg"
@@ -66,6 +84,7 @@ function AuthForm() {
                         type="button"
                         onClick={(event) => {
                             event.stopPropagation();
+                            handleGoogleAuth();
                         }}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -102,9 +121,9 @@ function AuthForm() {
                                     onChange={(event) => setName(event.target.value)}
                                     type="text"
                                     required className="w-full px-4 py-3 border border-slate-200 rounded-lg 
-                                  shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500
-                                 focus:border-indigo-500" /
-                                >
+                                      shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500
+                                     focus:border-indigo-500"
+                                />
                             </div>
                         </motion.div>
                     )}
@@ -121,7 +140,7 @@ function AuthForm() {
                             type="email"
                             required
                             className="w-full px-4 py-3 border border-slate-200 rounded-lg shadow-sm focus:outline-none 
-                         focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                             focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
 
                     </div>
@@ -138,7 +157,7 @@ function AuthForm() {
                             type="password"
                             required
                             className="w-full px-4 py-3 border border-slate-200 rounded-lg shadow-sm 
-                         focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                             focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                     </div>
                 </motion.div>
@@ -150,8 +169,8 @@ function AuthForm() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg 
-                        text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 
-                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:shadow-2xl cursor-pointer"
+                            text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:shadow-2xl cursor-pointer"
                     >
                         {isLogins ? 'Sign In' : 'Create Account'}
                     </motion.button>

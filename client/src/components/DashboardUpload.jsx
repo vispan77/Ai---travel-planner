@@ -32,7 +32,6 @@ function DashboardUpload() {
 
     const removeFile = () => {
         setFile(null);
-        // Reset input value so the same file can be selected again if needed
         if (inputRef.current) inputRef.current.value = "";
     };
 
